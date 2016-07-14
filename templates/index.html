@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>The Wall!</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Testing Python on Flask!">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.theme.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.0.0.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		});
+    </script>
+
+	</head>
+	<body>
+		<h1>The Wall</h1>
+		{% if session['id'] %}
+			<p>Hello {{ session['firstName'] }} {{ session['lastName'] }}</p>
+			<form action='/logout' method='POST'>
+				<input type="submit" name="logout" value="Logout" id="logout_button" class="btn btn-default navbar-btn">
+			</form>
+		{% endif %}
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-3">
+					<h2>Register</h2>
+					<form name="register" action="/register" method="post">
+						<p>Email:</p>
+						<input class="form-control" type="text" name="userEmail">
+						<br>
+						<p>Password:</p>
+						<input class="form-control" type="text" name="userPassword">
+						<br>
+						<p>Confirm Password:</p>
+						<input class="form-control" type="text" name="userConfirm">
+						<br>
+						<p>First Name:</p>
+						<input class="form-control" type="text" name="userFirst">
+						<br>
+						<p>Last Name:</p>
+						<input class="form-control" type="text" name="userLast">
+						<br>
+						<input class="btn" type="submit" value="Register">
+					</form>
+				</div>
+				<div class="col-xs-2"></div>
+				<div class="col-xs-3">
+					<h2>Login</h2>
+					<form name="login" action="/login" method="post">
+						<p>Email:</p>
+						<input class="form-control" type="text" name="userEmail">
+						<br>
+						<p>Password:</p>
+						<input class="form-control" type="text" name="userPassword">
+						<br>
+					<input class="btn" type="submit" value="Login">
+					</form>
+				</div>
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						{% for message in messages %}
+							<p><span style="color:red">{{message}}</span></p>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+			</div>
+		</div>
+	</body>
+</html>

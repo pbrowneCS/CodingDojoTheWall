@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>The Wall!</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Testing Python on Flask!">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.theme.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.0.0.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		});
+    </script>
+	</head>
+	<body>
+		<h1>The Wall of Messages</h1>
+		{% if session['id'] %}
+			<p>Hello {{ session['firstName'] }} {{ session['lastName'] }}</p>
+			<form action='/logout' method='POST'>
+				<input type="submit" name="logout" value="Logout" id="logout_button" class="btn btn-default navbar-btn">
+			</form>
+		{% endif %}
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				{% for message in messages %}
+					<p><span style="color:red">{{message}}</span></p>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-3"></div>
+				<div class="col-xs-6">
+					<h3>Enter a Message Here:</h3>
+					<form name="newMessage" action="/newMessage" method="post">
+						<textarea class="form-control" rows="5" name="newMessage"></textarea>
+						<input class="btn" type="submit" value="Add Message">
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-2"></div>
+				<div class="col-xs-6">
+					{% for messages in allMessages: %}
+						<hr>
+						<h3>Message: </h3>
+						<p><span style="font-weight: bold">{{ messages['message'] }}</span> - {{ messages['firstName'] }} {{ messages['lastName'] }} - {{ messages['created_at'] }}</p>
+						<br>
+						<p>Comments:</p>
+						{% for comments in allComments: %}
+						<div class="row">
+							<div class="col-xs-1"></div>
+							<div class="col-xs-10">
+								{% if messages['id'] == comments['messages_id'] %}
+									<p><span style="font-weight: bold">{{ comments['comment'] }}</span> - {{ comments['firstName'] }} {{ comments['lastName'] }} - {{ comments['created_at'] }}</p>
+								{% endif %}
+							</div>
+						</div>
+						{% endfor %}
+						<br>
+						<p>Reply:</p>
+							<form name="newComment" action="/newComment/{{ messages['id'] }}" method="post">
+								<textarea class="form-control" rows="1" name="newComment"></textarea>
+								<input class="btn" type="submit" value="Add Comment">
+							</form>
+					{% endfor %}
+					<br>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

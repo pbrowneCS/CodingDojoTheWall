@@ -1,0 +1,13 @@
+*{
+	vertical-align: baseline;
+	font-family: Verdana;
+	font-style: inherit;
+	font-size: inherit;
+	border: 0px none;
+/* 	outline: 1px dotted red; 0; */
+	padding: 0px;
+	margin: 0px; 
+}
+h1{
+	color:blue;
+}
